@@ -3,7 +3,10 @@ import { ENV } from './env.js';
 
 export const connectDB = async () => {
     try {
-        const conn =await mongoose.connect(ENV.DB_URL);
+        if(!ENV.DB_URL) {
+            throw new Error('Database URL is not defined in environment variables');
+        }
+        await mongoose.connect(ENV.DB_URL);
         console.log('✅ Database connected successfully');
     } catch (error) {
         console.error('❌ Database connection error:', error);

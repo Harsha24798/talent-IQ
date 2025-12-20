@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { ENV } from './lib/env.js';
+import { connectDB } from './lib/db.js';
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.get('/books', (req, res) => {
 });
 
 // make our app ready for production
-if(ENV.NODE_ENV === 'production') {
+if(ENV.NODE_ENV === 'development') {
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
   app.get('/{*any}', (req, res) => {
@@ -25,6 +26,15 @@ if(ENV.NODE_ENV === 'production') {
   console.log("Else Part")
 }
 
-app.listen(ENV.PORT, () => {
-  console.log(`Server is running on port ${ENV.PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(ENV.PORT, () => {
+      console.log(`🚀 Server is running on port ${ENV.PORT}`);
+    });
+  } catch (error) {
+    console.log("💥 Error starting the Server: ", error)
+  }
+};
+
+startServer();

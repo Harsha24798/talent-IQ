@@ -1,6 +1,6 @@
 import donenv from 'dotenv';
 
-donenv.config();
+donenv.config({ quiet: true });
 
 export const ENV = {
     PORT: process.env.PORT || 7000,

@@ -3,25 +3,21 @@ import { connectDB } from "./db.js";
 import User from "../models/User.js";
 
 export const inngest = new Inngest({
-  id: "harsha-talent-iq",
-  dev: true,
+  id: "talent-iq",
 });
 
-export const syncUser = inngest.createFunction(
+const syncUser = inngest.createFunction(
+
   { id: "sync-user" },
   { event: "clerk/user.created" },
+
   async ({ event }) => {
+
     console.log("🔥 syncUser triggered:", event.data.id);
 
     await connectDB();
 
-    const {
-      id,
-      email_addresses,
-      first_name,
-      last_name,
-      profile_image_url,
-    } = event.data;
+    const { id, email_addresses, first_name, last_name, profile_image_url, } = event.data;
 
     // Safety check
     if (!email_addresses?.length) {
@@ -29,19 +25,22 @@ export const syncUser = inngest.createFunction(
       return;
     }
 
-    await User.create({
+    const newUser = {
       clerkId: id,
-      email: email_addresses[0].email_address,
+      email: email_addresses[0]?.email_address,
       name: `${first_name ?? ""} ${last_name ?? ""}`.trim(),
       profileImage: profile_image_url ?? "",
-    });
+    }
+
+    await User.create(newUser);
   }
 );
 
-// ✅ MUST be exported (critical)
-export const deleteUser = inngest.createFunction(
+const deleteUser = inngest.createFunction(
+
   { id: "delete-user" },
   { event: "clerk/user.deleted" },
+
   async ({ event }) => {
     console.log("🔥 deleteUser triggered:", event.data.id);
 
@@ -51,5 +50,4 @@ export const deleteUser = inngest.createFunction(
   }
 );
 
-// ✅ Functions array
 export const functions = [syncUser, deleteUser];

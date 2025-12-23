@@ -7,6 +7,7 @@ import { serve } from 'inngest/express';
 import { inngest, functions } from './lib/inngest.js';
 import { clerkMiddleware } from '@clerk/express';
 import chatRoutes from './routes/chatRoutes.js';
+import sessionRoute from './routes/sessionRoute.js';
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(clerkMiddleware());
 // Routes
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use('/api/chat', chatRoutes);
+app.use('/api/session', sessionRoute);
 
 
 app.get('/helth', (req, res) => {

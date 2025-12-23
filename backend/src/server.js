@@ -25,10 +25,12 @@ app.get('/books', (req, res) => {
 
 // make our app ready for production
 if(ENV.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  // app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.use(express.static(path.join(__dirname, './')));
 
   app.get('/{*any}', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+    // res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'index.html'));
   }); 
 } else {
   console.log("Else Part")

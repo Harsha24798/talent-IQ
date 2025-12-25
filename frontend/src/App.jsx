@@ -1,25 +1,14 @@
-import './App.css'
 import { SignedIn, SignedOut, SignIn, SignInButton, SignOutButton, UserButton } from '@clerk/clerk-react'
+import { Route, Routes } from 'react-router'
 
 function App() {
 
 
   return (
-    <>
-      <h1>Welcome</h1>
-
-      <SignedOut>
-        <SignInButton mode='modal'>
-          <button>Login</button>
-        </SignInButton>
-      </SignedOut>
-
-      <SignedIn>
-        <SignOutButton />
-      </SignedIn>
-
-      <UserButton />
-    </>
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+      <Route path='/about' element={<AboutPage />} />
+    </Routes>
   )
 }
 

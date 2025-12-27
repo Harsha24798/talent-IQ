@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path='/' element={!isSignedIn ? <HomePage /> : <Navigate to="/dashboard" />} />
         <Route path='/dashboard' element={isSignedIn ? <DashboardPage /> : <Navigate to="/" />} />
-        <Route path='/problem' element={isSignedIn ? <ProblemPage /> : <Navigate to="/" />} />
+        <Route path='/problems' element={isSignedIn ? <ProblemPage /> : <Navigate to="/" />} />
       </Routes>
 
       <Toaster position='top-right' toastOptions={{ duration: 3000 }} />
